@@ -8,18 +8,20 @@ const readStoreController = require('./getStore');
 const updateStoreController = require('./updateStore');
 const deleteStoreController = require('./deleteStore');
 const addProductToStoreController = require('./addProductToStore')
+const { validateStore } = require('../../middleware/middleware')
+const { validateProduct } = require('../../middleware/middleware')
 
 
 const router = new express.Router()
 
 
 router.post(
-	'/stores',
+	'/stores', validateStore,
 	createStoreControler
 )
 
 router.post(
-	'/stores/:id/product',
+	'/stores/:id/product', validateProduct,
 	addProductToStoreController
 )
 
@@ -34,7 +36,7 @@ router.get(
 )
 
 router.patch(
-	'/stores/:id',
+	'/stores/:id', validateStore,
 	updateStoreController
 )
 

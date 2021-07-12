@@ -6,11 +6,11 @@ const productSchema = mongoose.Schema({
     },
     price: {
         type: Number,
-        min: [0, 'Price must be above 0']
+        min: [0, 'Price must be 0 or above']
     },
     stock: {
         type: Number,
-        min: [0, 'Price must be above 0']
+        min: [0, 'Price must be 0 or above']
     },
 
     store: {

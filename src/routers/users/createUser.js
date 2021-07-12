@@ -14,6 +14,6 @@ module.exports = async (req, res) => {
 			return res.send('already logged in')
 		}
 	} catch (error) {
-		return res.status(500).send(error.message);
+		return res.status(500).send(error);
 	}
 };

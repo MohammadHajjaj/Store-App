@@ -1,6 +1,7 @@
 const Product = require('../models/product');
 const Store = require('../models/store');
 const User = require('../models/user');
+const Cart = require('../models/cart');
 
 
 // products mongo services
@@ -143,3 +144,16 @@ exports.createUser = async (...body) => {
 	}
 
 }
+
+//cart mongo services
+exports.getCurrentCart = async ({ owner, status }) => {
+	try {
+		const currentCart = await Cart.find({ owner, status })
+		return currentCart;
+
+	} catch (e) {
+		throw e
+	}
+
+}
+

@@ -6,6 +6,7 @@ const readProductsController = require('./getProducts');
 const readProductController = require('./getProduct');
 const updateProductController = require('./updateProduct')
 const deleteProductController = require('./deleteProduct')
+const { validateProduct } = require('../../middleware/middleware')
 
 const router = new express.Router();
 
@@ -20,7 +21,7 @@ router.get(
 )
 
 router.patch(
-	'/products/:id',
+	'/products/:id', validateProduct,
 	updateProductController
 )
 

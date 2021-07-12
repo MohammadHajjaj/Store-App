@@ -8,15 +8,16 @@ const productsRouter = require('./src/routers/products/index.js')
 const userRouter = require('./src/routers/users/index.js')
 const cartRouter = require('./src/routers/cart/index.js')
 
-app.listen(3000, () => {
-	console.log('Listenting to port 3000')
+const port = process.env.PORT
+app.listen(port, () => {
+	console.log(`Listenting to port ${port}`)
 })
 const session = require('express-session');
 
 require('./src/db/mongoose')
 //use mongo store later
 const sessionConfig = {
-	secret: 'unloko',
+	secret: process.env.SESSION_SECRET,
 	resave: false,
 	saveUninitialized: true,
 	cookie: {
