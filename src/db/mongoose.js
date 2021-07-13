@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/Stores-extended', {
+mongoose.connect(process.env.MONGODB_URL, {
 	userNewUrlPrase: true,
 	useCreateIndex: true
 })
