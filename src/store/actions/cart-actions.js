@@ -162,12 +162,8 @@ export const addOneQty = (productId, formData) => {
 				})
 			);
 			console.log(newProduct)
-			// dispatch(
-			// 	cartActions.addToCart({
-			// 		item: cartData.products,
-			// 	})
-			// );
-			// console.log(cartData)
+
+
 		} catch (error) {
 			console.log(error)
 		}
@@ -194,12 +190,6 @@ export const removeOneQty = (productId, formData) => {
 				})
 			);
 
-			// dispatch(
-			// 	cartActions.addToCart({
-			// 		item: cartData.products,
-			// 	})
-			// );
-			// console.log(cartData)
 		} catch (error) {
 			console.log(error)
 		}

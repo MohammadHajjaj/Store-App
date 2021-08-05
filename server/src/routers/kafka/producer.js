@@ -6,15 +6,9 @@ const router = express.Router();
 
 const kafka = new Kafka({
 	clientId: 'kafka-store-app',
-	brokers: ['dory-01.srvs.cloudkafka.com:9094', 'dory-02.srvs.cloudkafka.com:9094', 'dory-03.srvs.cloudkafka.com:9094'],
+	brokers: [config.kafka_host + ':' + config.kafka_broker1_port, config.kafka_host + ':' + config.kafka_broker2_port, config.kafka_host + ':' + config.kafka_broker3_port]
 	// authenticationTimeout: 1000,
 	// reauthenticationThreshold: 10000,
-	ssl: true,
-	sasl: {
-		mechanism: 'scram-sha-256', // scram-sha-256 or scram-sha-512
-		username: 't59siqyb',
-		password: 'yT4JrliUX6j-jwQumOmub_A8kzkP_XqR'
-	},
 })
 
 
