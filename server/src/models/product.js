@@ -10,14 +10,18 @@ const productSchema = mongoose.Schema({
     },
     stock: {
         type: Number,
-        min: [0, 'Price must be 0 or above']
+        min: [0, 'stock must be 0 or above']
     },
 
     store: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Store'
-    }
+    },
 
+    image: {
+        type: String,
+        default: 'https://source.unsplash.com/collection/1418885'
+    }
 })
 
 const Product = mongoose.model('Product', productSchema);

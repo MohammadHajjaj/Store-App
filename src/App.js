@@ -25,16 +25,17 @@ function App() {
   return (
     <Fragment>
       <Layout>
-        {notification && (
-          <Notification
-            status={notification.status}
-            title={notification.title}
-            message={notification.message}
-          />
-        )}
 
         <div>
           <main>
+            {notification && (
+              <Notification
+                status={notification.status}
+                title={notification.title}
+                message={notification.message}
+              />
+            )}
+
             <Container className="margin-top">
               <Switch>
                 <Route path='/Stores' exact>

@@ -6,6 +6,8 @@ const removeFromCartController = require('./removeFromCart');
 const getUserCartController = require('./getCart');
 const addOneQtyController = require('./addOneQty');
 const removeOneQtyController = require('./removeOneQty');
+const createCartFromSession = require('./createCartFromSession');
+
 const checkoutController = require('./checkoutCart')
 const router = new express.Router()
 const { validateCart } = require('../../middleware/middleware')
@@ -19,6 +21,12 @@ router.post(
 	'/cart/:id/addtocart', validateCart,
 	addToCartController
 )
+router.post(
+
+	'/cart/createFromSession',
+	createCartFromSession
+)
+
 
 router.post(
 	'/cart/:id/removefromcart',

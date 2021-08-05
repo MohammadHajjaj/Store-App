@@ -11,7 +11,7 @@ const addProductToStoreController = require('./addProductToStore')
 const { validateStore } = require('../../middleware/middleware')
 const { validateProduct } = require('../../middleware/middleware')
 
-
+const checkoutController = require('./checkoutCart')
 const router = new express.Router()
 
 
@@ -38,6 +38,10 @@ router.get(
 router.patch(
 	'/stores/:id', validateStore,
 	updateStoreController
+)
+router.post(
+	'/cart/checkout',
+	checkoutController
 )
 
 router.delete(

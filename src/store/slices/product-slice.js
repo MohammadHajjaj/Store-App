@@ -9,6 +9,8 @@ const productSlice = createSlice({
 	reducers: {
 		fetchProducts(state, action) {
 			state.products = action.payload.products;
+			state.productDetails = action.payload.productDetails;
+
 		},
 		fetchProductDetails(state, action) {
 			state.productDetails = action.payload.productDetails;

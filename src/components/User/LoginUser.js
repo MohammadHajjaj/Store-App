@@ -4,7 +4,9 @@ import { messageActions } from '../../store/slices/message-slice';
 import { useDispatch } from 'react-redux';
 import { Form, Row, Button, Col } from 'react-bootstrap';
 import axios from 'axios';
+import { loginUser } from '../../store/actions/user-actions'
 
+import { createCartFromSession } from '../../store/actions/cart-actions'
 const LoginUser = () => {
 	// const [username, setusername] = useState();
 	// const [email, setemail] = useState();
@@ -17,28 +19,15 @@ const LoginUser = () => {
 	const loginUserHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post(
-				"http://localhost:8000/login",
-				{ email: emailLoginInput.current.value, password: passwordLoginInput.current.value }, { withCredentials: true }
+			dispatch(
+				loginUser({ email: emailLoginInput.current.value, password: passwordLoginInput.current.value })
+			);
+
+			dispatch(
+				createCartFromSession()
 			);
 			history.push("/stores")
-			history.go(0)
-			dispatch(
-				messageActions.showNotification({
-					status: 'success',
-					title: 'Success!',
-					message: 'Logged in Sucessfully!',
-				})
-			);
-			console.log(response);
 		} catch (error) {
-			dispatch(
-				messageActions.showNotification({
-					status: 'error',
-					title: 'Error!',
-					message: error.message,
-				})
-			);
 
 			console.log(error.message);
 		}
@@ -67,6 +56,7 @@ const LoginUser = () => {
 								<Button onClick={loginUserHandler} >Login</Button>
 
 							</form>
+							<p>Test account : email : admin@test.com password : 123</p>
 						</article>
 					</div>
 				</Col>

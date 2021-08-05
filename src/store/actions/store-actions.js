@@ -17,6 +17,7 @@ export const fetchStoreData = () => {
 			dispatch(
 				storeActions.fetchStores({
 					stores: storeData,
+					storeProducts: []
 				})
 			);
 		} catch (error) {
@@ -66,6 +67,15 @@ export const editStore = (storeId, formData) => {
 					message: 'Edited Sucessfully!',
 				})
 			);
+			setTimeout(() => {
+				dispatch(
+					messageActions.hideNotification({
+						status: null
+					})
+				);
+			}, 2000)
+
+
 
 			// console.log(storeData)
 
@@ -79,6 +89,15 @@ export const editStore = (storeId, formData) => {
 					message: error,
 				})
 			);
+			setTimeout(() => {
+				dispatch(
+					messageActions.hideNotification({
+						status: null
+					})
+				);
+			}, 2000)
+
+
 
 		}
 	};
@@ -104,19 +123,35 @@ export const createStore = (formData) => {
 				})
 			);
 
+			setTimeout(() => {
+				dispatch(
+					messageActions.hideNotification({
+						status: null
+					})
+				);
+			}, 2000)
+
 
 			console.log(data)
 			// console.log(storeData)
 		} catch (error) {
-			console.log(error)
 			dispatch(
 
 				messageActions.showNotification({
 					status: 'error',
 					title: 'Error!',
-					message: error,
+					message: 'Creation failed!',
 				})
 			);
+			setTimeout(() => {
+				dispatch(
+					messageActions.hideNotification({
+						status: null
+					})
+				);
+			}, 2000)
+
+			console.log(error)
 
 		}
 	};

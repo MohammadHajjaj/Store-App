@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { messageActions } from '../../store/slices/message-slice';
+import { createCartFromSession } from '../../store/actions/cart-actions'
+import { createUser } from '../../store/actions/user-actions'
 
 import { Form, Row, Button, Col } from 'react-bootstrap';
 import axios from 'axios';
@@ -23,29 +25,15 @@ const CreateUser = () => {
 		// setemail(emailInput.current.value)
 		// console.log(username)
 		try {
-			const response = await axios.post(
-				"http://localhost:8000/createuser",
-				{ name: nameInput.current.value, email: emailInput.current.value, password: passwordInput.current.value }, { withCredentials: true }
+			dispatch(
+				createUser({ name: nameInput.current.value, email: emailInput.current.value, password: passwordInput.current.value })
+			);
+			dispatch(
+				createCartFromSession()
 			);
 			history.push("/stores")
-			history.go(0)
-			dispatch(
-				messageActions.showNotification({
-					status: 'success',
-					title: 'Success!',
-					message: 'Created Sucessfully!',
-				})
-			);
-
-			console.log(response);
+			// history.go(0)
 		} catch (error) {
-			dispatch(
-				messageActions.showNotification({
-					status: 'error',
-					title: 'Error!',
-					message: error.message,
-				})
-			);
 			console.log(error);
 		}
 		// dispatch(createStore(formData))

@@ -14,6 +14,11 @@ const storeSchema = mongoose.Schema({
             ref: 'Product'
         }
     ],
+    image: {
+        type: String,
+        default: 'https://source.unsplash.com/collection/4598857'
+    }
+
 
 })
 

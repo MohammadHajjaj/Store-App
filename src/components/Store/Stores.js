@@ -39,7 +39,7 @@ const Stores = (props) => {
 
 											className="product-img"
 											variant="top"
-											src={`assets/images/stores/image${Math.floor(Math.random() * 10) + 1}.jpg`}
+											src={store.image}
 											alt={`dw ${Math.floor(Math.random() * 10) + 1}`}
 
 										/>

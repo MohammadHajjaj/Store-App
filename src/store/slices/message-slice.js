@@ -11,7 +11,13 @@ const messageSlice = createSlice({
 				message: action.payload.message,
 			};
 		},
+		hideNotification(state, action) {
+			state.notification = action.payload.status
+
+		}
 	},
+
+
 });
 
 export const messageActions = messageSlice.actions;

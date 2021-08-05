@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCartData } from '../../store/actions/cart-actions';
+import { logoutUser } from '../../store/actions/user-actions'
 
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -20,17 +21,23 @@ const Header = (props) => {
 		dispatch(fetchCartData());
 	}, []);
 
+	const username = useSelector((state) => state.user.username);
+
 	const products = useSelector((state) => state.cart.items);
+
 	let totalQuantity;
 	if (products.length > 0) {
 		totalQuantity = products.map(product => product.quantity).reduce((acc, next) => acc + next);
 	}
-	const [username, setusername] = useState(null)
+	else {
+		totalQuantity = 0;
+	}
+	// const [username, setusername] = useState(null)
 
-	useEffect(() => {
-		if (Cookies.get('username'))
-			setusername(Cookies.get('username'))
-	}, [])
+	// useEffect(() => {
+	// 	if (Cookies.get('username'))
+	// 		setusername(Cookies.get('username'))
+	// }, [])
 	let link;
 	let link2;
 	const history = useHistory();
@@ -38,12 +45,10 @@ const Header = (props) => {
 	const logoutHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post(
-				"http://localhost:8000/logout", {},
-				{ withCredentials: true }
+			dispatch(
+				logoutUser()
 			);
 			history.push("/stores")
-			history.go(0)
 		} catch (error) {
 			console.log(error);
 		}
@@ -52,24 +57,26 @@ const Header = (props) => {
 	const cartButtonHandler = async (e) => {
 		e.preventDefault();
 		history.push("/cart")
-		history.go(0)
 	};
 
-	if (username) {
+	if (username || Cookies.get('username')) {
 		link = <Nav>
 			<Nav.Link onClick={cartButtonHandler} ><i className="fa fa-shopping-cart"></i>Cart <span style={styles.badge}>{totalQuantity || 0}</span></Nav.Link>
 
 			<Nav>
-				<NavDropdown title={username} id="collasible-nav-dropdown2">
-					<NavDropdown.Item as={Link} to="/myStores">Your Stores</NavDropdown.Item>
-					<NavDropdown.Item as={Link} to="/Stores/Create">Create Store</NavDropdown.Item>
+				<NavDropdown alignRight
 
-					<NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+					title="Account" id="collasible-nav-dropdown2" >
+
+					<NavDropdown.Item as={Link} to="/myStores"><i className="fas fa-warehouse">Your Stores</i></NavDropdown.Item>
+					<NavDropdown.Item onClick={logoutHandler}><i className="fas fa-sign-out-alt">Logout</i></NavDropdown.Item>
 				</NavDropdown>
 			</Nav>
 		</Nav>
 	} else {
 		link = <Nav>
+			<Nav.Link onClick={cartButtonHandler} ><i className="fa fa-shopping-cart"></i>Cart <span style={styles.badge}>{totalQuantity || 0}</span></Nav.Link>
+
 			<Nav.Link as={Link} to="/login" > <i className="fas fa-sign-in-alt"></i> Login</Nav.Link>
 
 			<Nav.Link as={Link} to="/CreateUser" > <i className="fas fa-user-plus"></i> Sign Up</Nav.Link>

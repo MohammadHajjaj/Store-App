@@ -39,6 +39,9 @@ exports.addToCart = async (userId, productId, quantity) => {
 
 		// if the product already exist, just update its info with the new quantity
 		if (existingProduct) {
+			if (existingProduct.quantity + 1 > product.stock) {
+				throw new Error('not enough in stock')
+			}
 			currentCart[0].products[exisistingProductIndex].quantity = currentCart[0].products[exisistingProductIndex].quantity + quantity;
 			currentCart[0].products[exisistingProductIndex].total = currentCart[0].products[exisistingProductIndex].quantity * product.price;
 			currentCart[0].products[exisistingProductIndex].price = product.price
@@ -48,6 +51,10 @@ exports.addToCart = async (userId, productId, quantity) => {
 		}
 		//if the product doesn't already exist , push the new product to the cart
 		else {
+			if (quantity > product.stock) {
+				return ("not enough in stock")
+			}
+
 			currentCart[0].products.push({
 				productId: productId,
 				quantity: quantity,
@@ -62,6 +69,8 @@ exports.addToCart = async (userId, productId, quantity) => {
 	}
 
 }
+
+
 
 
 exports.addOneQty = async (userId, productId) => {

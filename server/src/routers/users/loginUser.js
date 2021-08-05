@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
 		res.cookie('userId', req.user._id.toString())
 		res.cookie('email', req.user.email.toString())
 
-		return res.status(201).send("logged in");
+		return res.status(201).send(req.user);
 
 	} catch (error) {
 		return res.status(500).send(error.message);

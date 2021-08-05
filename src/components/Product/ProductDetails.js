@@ -8,6 +8,8 @@ import { fetchProductDetails } from '../../store/actions/product-actions';
 import Cookies from 'js-cookie';
 
 import { addToCart } from '../../store/actions/cart-actions';
+import EditIcon from '@material-ui/icons/Edit';
+import Fab from '@material-ui/core/fab'
 
 import './styles.css';
 
@@ -15,11 +17,14 @@ import './styles.css';
 const ProductDetails = () => {
 	const [Qty, setQty] = useState(1);
 	const productDetails = useSelector((state) => state.product.productDetails);
+	const [Loading, setLoading] = useState(true)
 
 	const params = useParams();
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchProductDetails(params.productId));
+		setLoading(false);
+
 	}, [dispatch, params.productId]);
 
 
@@ -45,9 +50,9 @@ const ProductDetails = () => {
 	if (productDetails.length !== 0) {
 		if (Cookies.get('userId') === productDetails.store.owner) {
 			link2 = <Link to={`/products/${params.productId}/edit`}>
-				<Button className="ml-2 " variant="primary" >
-					Edit
-				</Button>
+				<Fab className="ml-2" color="primary" aria-label="add">
+					<EditIcon />
+				</Fab>
 			</Link>
 
 		}
@@ -55,6 +60,8 @@ const ProductDetails = () => {
 
 
 	return (
+		!Loading &&
+
 		< React.Fragment >
 
 			<div className="card mb-3">
@@ -63,7 +70,7 @@ const ProductDetails = () => {
 						<div>
 							<img
 								className="main-img"
-								src={`http://localhost:3000/assets/images/products/image${Math.floor(Math.random() * 15) + 1}.jpg`}
+								src={productDetails.image}
 
 							/>
 

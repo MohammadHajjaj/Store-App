@@ -54,6 +54,13 @@ export const addToCart = (productId, formData) => {
 					message: 'Added to cart!',
 				})
 			);
+			setTimeout(() => {
+				dispatch(
+					messageActions.hideNotification({
+						status: null
+					})
+				);
+			}, 2000)
 
 		} catch (error) {
 			dispatch(
@@ -61,14 +68,45 @@ export const addToCart = (productId, formData) => {
 				messageActions.showNotification({
 					status: 'error',
 					title: 'Error!',
-					message: error,
+					message: 'not enough in stock!',
 				})
 			);
+			setTimeout(() => {
+				dispatch(
+					messageActions.hideNotification({
+						status: null
+					})
+				);
+			}, 2000)
+			console.log(error.message)
+		}
+	};
+};
+export const createCartFromSession = () => {
+	return async (dispatch) => {
+		const fetchData = async () => {
+			const response = await axios.post(
+				"http://localhost:8000/cart/createFromSession", {}, { withCredentials: true }
+			);
+			return response.data
+		};
 
+		try {
+			const cartData = await fetchData();
+			dispatch(
+				cartActions.updateCart({
+					items: cartData.products || [],
+					cart: cartData,
+				})
+			);
+			console.log(cartData)
+
+		} catch (error) {
 			console.log(error)
 		}
 	};
 };
+
 export const removeFromCart = (productId, formData) => {
 	return async (dispatch) => {
 		const sendData = async () => {
@@ -81,7 +119,7 @@ export const removeFromCart = (productId, formData) => {
 
 		try {
 			const cartData = await sendData();
-			console.log(cartData.products)
+			console.log(cartData)
 			dispatch(
 				cartActions.updateCart({
 					items: cartData.products || [],
@@ -119,7 +157,7 @@ export const addOneQty = (productId, formData) => {
 
 			dispatch(
 				cartActions.updateCart({
-					items: cartData.products || [],
+					items: cartData.products,
 					cart: cartData,
 				})
 			);
@@ -168,7 +206,6 @@ export const removeOneQty = (productId, formData) => {
 	};
 };
 
-
 export const checkoutCart = () => {
 	return async (dispatch) => {
 		const sendData = async () => {
@@ -181,7 +218,13 @@ export const checkoutCart = () => {
 
 		try {
 			const cartData = await sendData();
-			await axios.post("http://localhost:8000/produce", { topicName: "userCart", message: { key: Cookies.get('userId'), value: cartData } }, { withCredentials: true })
+			await axios.post("http://localhost:8000/produce", { topicName: "t59siqyb-default", message: { key: Cookies.get('userId'), value: cartData } }, { withCredentials: true })
+			dispatch(
+				cartActions.updateCart({
+					items: [],
+					cart: [],
+				})
+			);
 
 			dispatch(
 				messageActions.showNotification({
@@ -190,6 +233,15 @@ export const checkoutCart = () => {
 					message: 'Thank you for your order!',
 				})
 			);
+			setTimeout(() => {
+				dispatch(
+					messageActions.hideNotification({
+						status: null
+					})
+				);
+			}, 2000)
+
+
 			console.log(cartData)
 		} catch (error) {
 			console.log(error)
@@ -200,6 +252,15 @@ export const checkoutCart = () => {
 					message: error,
 				})
 			);
+			setTimeout(() => {
+				dispatch(
+					messageActions.hideNotification({
+						status: null
+					})
+				);
+			}, 2000)
+
+
 		}
 	};
 };

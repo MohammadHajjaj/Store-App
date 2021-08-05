@@ -5,7 +5,9 @@ import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchStoreData } from '../../store/actions/store-actions';
 import Cookies from 'js-cookie';
-
+import AddIcon from "@material-ui/icons/Add";
+import Fab from '@material-ui/core/fab'
+import EditIcon from '@material-ui/icons/Edit';
 const UserStores = () => {
 	const dispatch = useDispatch();
 	const stores = useSelector((state) => state.store.stores);
@@ -39,7 +41,7 @@ const UserStores = () => {
 
 											className="product-img"
 											variant="top"
-											src={`assets/images/stores/image${Math.floor(Math.random() * 10) + 1}.jpg`}
+											src={store.image}
 											alt={`dw ${Math.floor(Math.random() * 10) + 1}`}
 
 										/>
@@ -60,10 +62,11 @@ const UserStores = () => {
 														{'Enter Store'}
 													</Button>
 												</Link>
+
 												<Link to={`/stores/${store._id}/edit`}>
-													<Button className="push-right mt-3" variant="warning" >
-														Edit
-													</Button>
+													<Fab color="primary" aria-label="add">
+														<EditIcon />
+													</Fab>
 												</Link>
 
 											</div>
@@ -80,8 +83,13 @@ const UserStores = () => {
 				{userStores.length === 0 && <Row className="justify-content-md-center mt-5" xs={1} md={3}>
 					<p>You don't have any stores</p>
 				</Row>}
-
-
+				<Row className="justify-content-md-center mt-5">
+					<Link to={`/stores/create`}>
+						<Fab color="primary" aria-label="add">
+							<AddIcon />
+						</Fab>
+					</Link>
+				</Row>
 			</Container>
 		</React.Fragment >
 	);

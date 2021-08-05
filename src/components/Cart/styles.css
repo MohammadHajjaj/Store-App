@@ -3,7 +3,7 @@
   margin-right: 15px;
   background-color: #eee;
   position: relative;
-  width: 60px;
+  width: 70px;
   overflow: hidden;
   height: 40px;
 }
@@ -45,7 +45,7 @@
 }
 
 .quantity-number {
-  font-size: 16px;
+  font-size: 15px;
   position: absolute;
   left: 32%;
   top: 12%;

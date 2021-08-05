@@ -9,7 +9,7 @@ const CreateStore = () => {
 	const productName = useRef(null);
 	const productPrice = useRef(null);
 	const productStock = useRef(null);
-
+	const productImage = useRef(null);
 	const dispatch = useDispatch();
 	const params = useParams();
 
@@ -17,7 +17,12 @@ const CreateStore = () => {
 		e.preventDefault();
 		// setStoreName(textInput.current.value)
 		try {
-			dispatch(createProduct(params.storeId, { name: productName.current.value, price: productPrice.current.value, stock: productStock.current.value }))
+			if (productImage.current.value.trim() !== '') {
+				dispatch(createProduct(params.storeId, { name: productName.current.value, price: productPrice.current.value, stock: productStock.current.value, image: productImage.current.value }))
+			}
+			else {
+				dispatch(createProduct(params.storeId, { name: productName.current.value, price: productPrice.current.value, stock: productStock.current.value }))
+			}
 		}
 		catch (e) {
 			console.log(e)
@@ -42,6 +47,10 @@ const CreateStore = () => {
 						<Form.Group className="mb-3" controlId="formBasicEmail">
 							<Form.Label>Product Stock: </Form.Label>
 							<Form.Control type="Number" ref={productStock} placeholder="Enter Product Stock" />
+						</Form.Group>
+						<Form.Group className="mb-3" controlId="formBasicEmail">
+							<Form.Label>Product Image: </Form.Label>
+							<Form.Control type="text" ref={productImage} placeholder="Optional Image!" />
 						</Form.Group>
 
 						<Button onClick={createProductHandler}>Create Product</Button>

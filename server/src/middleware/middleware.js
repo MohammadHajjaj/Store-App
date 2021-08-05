@@ -2,11 +2,13 @@ const Joi = require('joi');
 
 const storeSchema = Joi.object({
 	name: Joi.string().required(),
+	image: Joi.string().allow('').optional(),
 }).required()
 const productSchema = Joi.object({
 	name: Joi.string().required(),
 	price: Joi.number().required().min(0),
 	stock: Joi.number().required().min(0),
+	image: Joi.string().allow('').optional()
 }).required()
 
 

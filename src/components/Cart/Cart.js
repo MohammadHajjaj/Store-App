@@ -3,6 +3,7 @@ import { useSelector, useDispatch, } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Row } from "react-bootstrap";
 import { fetchCartData, removeFromCart, addOneQty, removeOneQty, checkoutCart } from '../../store/actions/cart-actions';
+import Cookies from 'js-cookie';
 
 import './styles.css';
 
@@ -68,9 +69,13 @@ const Cart = (props) => {
 	const checkoutHandler = async (e) => {
 		e.preventDefault();
 		try {
-			await dispatch(checkoutCart())
-			history.push("/cart")
-			history.go(0)
+			if (Cookies.get('userId')) {
+				await dispatch(checkoutCart())
+				history.push("/store")
+			}
+			else {
+				history.push("/login")
+			}
 		}
 		catch (e) {
 			console.log(e)
@@ -99,7 +104,7 @@ const Cart = (props) => {
 										<div className="col-12 col-sm-12 col-md-2 text-center">
 											<img
 												className="img-responsive cart-img-obj-fit"
-												src={`http://localhost:3000/assets/images/products/image${Math.floor(Math.random() * 15) + 1}.jpg`}
+												src={item.productId.image}
 
 												alt="preview"
 												width="150"
@@ -170,7 +175,7 @@ const Cart = (props) => {
 							</div>
 
 							<div className="pull-right" style={{ margin: 10 }}>
-								<a href="" className="btn btn-primary pull-right" >
+								<a onClick={checkoutHandler} href="" className="btn btn-primary pull-right" >
 									Checkout
 								</a>
 								<div className="pull-right" style={{ margin: 5 }}>

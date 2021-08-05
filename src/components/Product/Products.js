@@ -50,7 +50,7 @@ const Products = (props) => {
 									<Card.Img
 										className="product-img"
 										variant="top"
-										src={`http://localhost:3000/assets/images/products/image${Math.floor(Math.random() * 15) + 1}.jpg`}
+										src={product.image}
 
 									/>
 									<Card.Body>

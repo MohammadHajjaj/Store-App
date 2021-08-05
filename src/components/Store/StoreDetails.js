@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import './styles.css';
@@ -7,31 +7,40 @@ import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchStoreProducts } from '../../store/actions/store-actions';
 import Cookies from 'js-cookie';
-
+import AddIcon from "@material-ui/icons/Add";
+import Fab from '@material-ui/core/fab'
 import { addToCart } from '../../store/actions/cart-actions';
 
 const StoreDetails = () => {
-	const stores = useSelector((state) => state.store.stores);
+	const [Loading, setLoading] = useState(true)
 
+	const stores = useSelector((state) => state.store.stores);
+	const storeProducts = useSelector((state) => state.store.storeProducts);
+	console.log(storeProducts)
 	const params = useParams();
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchStoreProducts(params.storeId));
-	}, [dispatch, params.storeId]);
-	const storeProducts = useSelector((state) => state.store.storeProducts);
+		setLoading(false);
+	}, []);
 
 	const userStores = stores.filter((store) => {
 		return store.owner === Cookies.get('userId')
 	})
 	let link;
 	let link2;
+
 	userStores.map((store) => {
 		if (params.storeId === store._id)
-			link = <Link to={`/Stores/${params.storeId}/createproduct`}>
-				<Button variant="primary" >
-					Add A Product
-				</Button>
-			</Link>
+			link = <Row className="justify-content-md-center mt-5">
+				<Link to={`/Stores/${params.storeId}/createproduct`}>
+					<Fab color="primary" aria-label="add">
+						<AddIcon />
+					</Fab>
+				</Link>
+			</Row>
+
+
 	})
 
 	userStores.map((store) => {
@@ -56,6 +65,7 @@ const StoreDetails = () => {
 
 
 	return (
+		!Loading &&
 		< React.Fragment >
 
 			<Container className="p-3">
@@ -79,7 +89,7 @@ const StoreDetails = () => {
 											className="product-img"
 											variant="top"
 
-											src={`http://localhost:3000/assets/images/products/image${Math.floor(Math.random() * 15) + 1}.jpg`}
+											src={product.image}
 
 										/>
 										<Card.Body>
