@@ -27,8 +27,8 @@ A simple eCommerce website created with ReactJS , NodeJS , MongoDB
 
 1. Products sorting by price,stock 
 2. Products/Stores Search by Name
-3. Add Tests 
-4. Improve front-end design
+4. Add Tests 
+5. Improve front-end design
 
 ## Installation
 
@@ -38,4 +38,10 @@ install nodeJs and run the following commands
 npm install
 npm run start
 ```
+to start the server: 
+```bash
+../node_modules/.bin/env-cmd -f ./config/dev.env nodemon server.js
+```
+
+
 
