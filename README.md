@@ -1,4 +1,4 @@
-# Library-Managment-System
+# eCommerce Website
 A simple eCommerce website created with ReactJS , NodeJS , MongoDB  
 
 ## Live Website
