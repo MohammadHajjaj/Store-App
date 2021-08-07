@@ -31,7 +31,7 @@ exports.addToCart = async (userId, productId, quantity) => {
 	else {
 		//check if the product already exist
 		if (quantity > product.stock) {
-			return ("not enough in stock")
+			throw new Error('not enough in stock')
 		}
 		const exisistingProductIndex = currentCart[0].products.findIndex(
 			(product) => product.productId._id.toString() === productId.toString());
@@ -39,7 +39,7 @@ exports.addToCart = async (userId, productId, quantity) => {
 
 		// if the product already exist, just update its info with the new quantity
 		if (existingProduct) {
-			if (existingProduct.quantity + 1 > product.stock) {
+			if (existingProduct.quantity + quantity > product.stock) {
 				throw new Error('not enough in stock')
 			}
 			currentCart[0].products[exisistingProductIndex].quantity = currentCart[0].products[exisistingProductIndex].quantity + quantity;
@@ -52,7 +52,7 @@ exports.addToCart = async (userId, productId, quantity) => {
 		//if the product doesn't already exist , push the new product to the cart
 		else {
 			if (quantity > product.stock) {
-				return ("not enough in stock")
+				throw new Error('not enough in stock')
 			}
 
 			currentCart[0].products.push({

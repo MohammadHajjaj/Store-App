@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
 			if (!req.session.cart) {
 				//check if quantity is more than the stock available
 				if (quantity > product.stock) {
-					return ("not enough in stock")
+					throw new Error('not enough in stock')
 				}
 				const cartData = {
 					products: [{
@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
 			else {
 				//check if the product already exist
 				if (quantity > product.stock) {
-					return ("not enough in stock")
+					throw new Error('not enough in stock')
 				}
 				const exisistingProductIndex = req.session.cart.products.findIndex(
 					(product) => product.productId._id.toString() === productId.toString());
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
 
 				// if the product already exist, just update its info with the new quantity
 				if (existingProduct) {
-					if (existingProduct.quantity + 1 > product.stock) {
+					if (existingProduct.quantity + quantity > product.stock) {
 						throw new Error('not enough in stock')
 					}
 					req.session.cart.products[exisistingProductIndex].quantity = req.session.cart.products[exisistingProductIndex].quantity + quantity;
@@ -66,7 +66,7 @@ module.exports = async (req, res) => {
 				//if the product doesn't already exist , push the new product to the cart
 				else {
 					if (quantity > product.stock) {
-						return ("not enough in stock")
+						throw new Error('not enough in stock')
 					}
 					req.session.cart.products.push({
 						productId: { "_id": productId, "name": product.name, "stock": product.stock, "image": product.image },

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Col, Row } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductDetails } from '../../store/actions/product-actions';
 import Cookies from 'js-cookie';
@@ -15,6 +15,7 @@ import './styles.css';
 
 
 const ProductDetails = () => {
+
 	const [Qty, setQty] = useState(1);
 	const productDetails = useSelector((state) => state.product.productDetails);
 	const [Loading, setLoading] = useState(true)
@@ -28,12 +29,14 @@ const ProductDetails = () => {
 	}, [dispatch, params.productId]);
 
 
+	const qty = useRef(null);
 
 
 	console.log(productDetails)
 	// console.log(productDetails.store)
 	const addToCartHandler = async (e) => {
 		e.preventDefault();
+		// setQty(qty.current.value)
 		// setStoreName(textInput.current.value)
 		try {
 			dispatch(addToCart(params.productId, { quantity: Qty }))
@@ -105,19 +108,18 @@ const ProductDetails = () => {
 
 							</div>
 							<hr />
-							<Form.Group controlId="formBasicSelect">
-								<Form.Label><dt>Quantity: </dt></Form.Label>
-								<Form.Control as="select" value={Qty}
-									onChange={e => {
-										setQty(e.target.value);
-									}}
-								>
-									{
-										stockArray.map(n => (<option value={n}>{n}</option>))
-									}
-								</Form.Control>
-							</Form.Group>
+							<div className="row">
+								<div className="col-sm-3">
+									<Form.Group as={Col} controlId="formGridCity">
+										<Form.Label>Quantity</Form.Label>
+										<Form.Control defaultValue='1' type="Number" onChange={e => {
+											setQty(e.target.value);
+										}}
+										/>
+									</Form.Group>
+								</div>
 
+							</div>
 							<button
 								onClick={addToCartHandler}
 								className={'btn  btn-outline-primary'}
